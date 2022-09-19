@@ -402,32 +402,6 @@ describe('06-conditions-n-loops-tasks', function() {
     });
 
 
-    it.optional('getCommonDirectoryPath should return the n-ary string representation of number', () => {
-        [
-            {
-                pathes: ['/web/images/image1.png', '/web/images/image2.png'],
-                expected: '/web/images/'
-            },{
-                pathes: ['/web/assets/style.css', '/web/scripts/app.js',  'home/setting.conf'],
-                expected: ''
-            },{
-                pathes:  ['/web/assets/style.css', '/.bin/mocha',  '/read.me'],
-                expected: '/'
-            },{
-                pathes:  ['/web/favicon.ico', '/web-scripts/dump', '/webalizer/logs'],
-                expected: '/'
-            }
-        ].forEach(data => {
-            var actual = tasks.getCommonDirectoryPath(data.pathes, data.n);
-            assert.equal(
-                actual,
-                data.expected,
-                `Common directory path fo [${data.pathes}] = ${data.expected}, but actual ${actual}`
-            )
-        });
-    });
-
-
     it.optional('getMatrixProduct should return the product of two specified matrices', () => {
         [
             {

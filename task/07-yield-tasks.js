@@ -33,7 +33,26 @@
  *
  */
 function* get99BottlesOfBeer() {
-    throw new Error('Not implemented');
+    let bottles=99,bottleWord='bottles',result;
+    while(bottles>0){
+        if(bottles==1){
+            bottleWord='bottle';
+        }
+        result=bottles+' '+bottleWord+' of beer on the wall, '+bottles+' '+bottleWord+' of beer.';
+        yield result;
+        bottles=bottles-1;
+        if(bottles==0){
+            result='Take one down and pass it around, no more bottles of beer on the wall.';
+        }
+        else{
+            result='Take one down and pass it around, '+bottles+' bottles of beer on the wall.';
+        }
+        yield result;
+    }
+    result='No more bottles of beer on the wall, no more bottles of beer.';
+    yield result;
+    result='Go to the store and buy some more, 99 bottles of beer on the wall.';
+    yield result;
 }
 
 
@@ -47,7 +66,15 @@ function* get99BottlesOfBeer() {
  *
  */
 function* getFibonacciSequence() {
-    throw new Error('Not implemented');
+    let a=0,b=1,c;
+    yield a;
+    yield b;
+    while(true){
+        c=a+b;
+        a=b;
+        b=c;
+        yield c;
+    }
 }
 
 
@@ -82,7 +109,12 @@ function* getFibonacciSequence() {
  *
  */
 function* depthTraversalTree(root) {
-    throw new Error('Not implemented');
+    yield root;
+    if(Array.isArray(root.children)){
+        for(let child of root.children){
+            yield* depthTraversalTree(child);
+        }
+    }
 }
 
 
@@ -108,7 +140,17 @@ function* depthTraversalTree(root) {
  *
  */
 function* breadthTraversalTree(root) {
-    throw new Error('Not implemented');
+    yield root;
+    var arr=root.children;
+    let index=0;
+    while(index<arr.length){
+        let node=arr[index];
+        yield node;
+        index++;
+        if(node.children){
+            [].push.apply(arr,node.children);
+        }
+    }
 }
 
 
@@ -126,7 +168,32 @@ function* breadthTraversalTree(root) {
  *   [ 1, 3, 5, ... ], [ -1 ] => [ -1, 1, 3, 5, ...]
  */
 function* mergeSortedSequences(source1, source2) {
-    throw new Error('Not implemented');
+
+    let num1=source1.next().value;
+    let num2=source2.next().value;
+    let arr=[];
+    let index=0;
+    while(num1!=undefined||num2!=undefined){
+        if(num1<num2){
+            arr.push(num1);
+            num1=source1.next().value;
+        }
+        else{
+            arr.push(num2);
+            num2=source2.next().value;
+        }
+    }
+    while(num1!=undefined){
+        arr.push(num1);
+        num1=source1.next().value;
+    }
+    while(num2!=undefined){
+        arr.push(nu2);
+        num2=source2.next().value;
+    }
+    while(index<arr.length){
+        yield arr[i];
+    }
 }
 
 

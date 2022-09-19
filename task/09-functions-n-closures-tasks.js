@@ -26,7 +26,9 @@
  *
  */
 function getComposition(f,g) {
-    throw new Error('Not implemented');
+    return (x)=>{
+        f(g(x));
+    };
 }
 
 
@@ -47,7 +49,9 @@ function getComposition(f,g) {
  *
  */
 function getPowerFunction(exponent) {
-    throw new Error('Not implemented');
+    return (x)=>{
+        Math.pow(x,exponent);
+    };
 }
 
 
@@ -65,7 +69,15 @@ function getPowerFunction(exponent) {
  *   getPolynom()      => null
  */
 function getPolynom() {
-    throw new Error('Not implemented');
+    let arr=[].slice.call(arguments);
+    return (x)=>{
+        let degree=arr.length;
+        if(degree==0)
+            return null;
+        return arr.reduce(function(sum,element,index){
+            return sum+element*Math.pow(x,degree-1-index);
+        },0)
+    };
 }
 
 
@@ -84,7 +96,12 @@ function getPolynom() {
  *   memoizer() => the same random number  (next run, returns the previous cached result)
  */
 function memoize(func) {
-    throw new Error('Not implemented');
+    var cached;
+    return function(){
+        if(cached==undefined)
+            cached=func.apply(this.argument);
+        return cached;
+    }
 }
 
 
@@ -104,35 +121,15 @@ function memoize(func) {
  * retryer() => 2
  */
 function retry(func, attempts) {
-    throw new Error('Not implemented');
-}
-
-
-/**
- * Returns the logging wrapper for the specified method,
- * Logger has to log the start and end of calling the specified function.
- * Logger has to log the arguments of invoked function.
- * The fromat of output log is:
- * <function name>(<arg1>, <arg2>,...,<argN>) starts
- * <function name>(<arg1>, <arg2>,...,<argN>) ends
- *
- *
- * @param {Function} func
- * @param {Function} logFunc - function to output log with single string argument
- * @return {Function}
- *
- * @example
- *
- * var cosLogger = logger(Math.cos, console.log);
- * var result = cosLogger(Math.PI));     // -1
- *
- * log from console.log:
- * cos(3.141592653589793) starts
- * cos(3.141592653589793) ends
- *
- */
-function logger(func, logFunc) {
-    throw new Error('Not implemented');
+    return function(){
+        for(let index=0;index<=attempts;index++){
+            try{
+                return func.apply(this,arguments);
+            }
+            catch(err){
+            }
+        }
+    }
 }
 
 
@@ -150,7 +147,11 @@ function logger(func, logFunc) {
  *   partialUsingArguments(fn, 'a','b','c','d')() => 'abcd'
  */
 function partialUsingArguments(fn) {
-    throw new Error('Not implemented');
+    let params1=[].slice.call(arguments,1);
+    return function(){
+        let params2=[].slice.call(arguments);
+        return fn.apply(this,params1.concat(params2));
+    }
 }
 
 
@@ -171,7 +172,8 @@ function partialUsingArguments(fn) {
  *   getId10() => 11
  */
 function getIdGeneratorFunction(startFrom) {
-    throw new Error('Not implemented');
+    var count=startFrom;
+    ()=>count++;
 }
 
 
@@ -181,7 +183,6 @@ module.exports = {
     getPolynom: getPolynom,
     memoize: memoize,
     retry: retry,
-    logger: logger,
     partialUsingArguments: partialUsingArguments,
     getIdGeneratorFunction: getIdGeneratorFunction,
 };

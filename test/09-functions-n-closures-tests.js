@@ -88,52 +88,6 @@ describe('09-functions-n-closures-tasks', function() {
     });
 
 
-    it.optional('logger method should log start and end of call of the standard js function', () => {
-        var log = '';
-
-        var logFunc = (text) => ( log += text + '\n');
-        var cosLogger = tasks.logger(Math.cos, logFunc);
-
-        var actual = cosLogger(Math.PI);
-
-        assert.equal(actual, -1, 'logger function should return the original result from specified function');
-        assert.equal(
-            log,
-            'cos(3.141592653589793) starts\n'
-           +'cos(3.141592653589793) ends\n',
-            'logger function shoud log the start and end of the specified function');
-    });
-
-
-    it.optional('logger method should log start and end of call of the specified function', () => {
-        var isCalling = false;
-        var log = '';
-
-        var fn = function testLogger(param, index) {
-            assert.equal(
-                log,
-                'testLogger(["expected","test",1],0) starts\n',
-                'logger function shoud log the start of specified function before calling'
-            );
-            isCalling = true;
-            return param[index];
-        }
-
-        var logFunc = (text) => ( log += text + '\n');
-        var logger = tasks.logger(fn, logFunc);
-
-        var actual = logger(["expected", "test", 1], 0);
-
-        assert.equal(isCalling, true, 'logger function should call the specified function');
-        assert.equal(actual, 'expected', 'logger function should return the original result from specified function');
-        assert.equal(
-            log,
-            'testLogger(["expected","test",1],0) starts\n'
-           +'testLogger(["expected","test",1],0) ends\n',
-            'logger function shoud log the end of specified function after calling');
-    });
-
-
     it.optional('partialUsingArguments should return the function with partial applied arguments', () => {
         const fn = (x1,x2,x3,x4) => x1+x2+x3+x4;
         assert.equal(

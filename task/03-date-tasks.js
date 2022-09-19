@@ -10,7 +10,7 @@
 
 
 /**
- * Parses a rfc2822 string date representation into date value
+ * Parses a rfc2822 string date representation into date    
  * For rfc2822 date specification refer to : http://tools.ietf.org/html/rfc2822#page-14
  *
  * @param {string} value
@@ -22,7 +22,7 @@
  *    'Sun, 17 May 1998 03:00:00 GMT+01' => Date()
  */
 function parseDataFromRfc2822(value) {
-   throw new Error('Not implemented');
+   return new Date(value);
 }
 
 /**
@@ -37,7 +37,7 @@ function parseDataFromRfc2822(value) {
  *    '2016-01-19T08:07:37Z' => Date()
  */
 function parseDataFromIso8601(value) {
-   throw new Error('Not implemented');
+   return new Date(value);
 }
 
 
@@ -56,7 +56,8 @@ function parseDataFromIso8601(value) {
  *    Date(2015,1,1)    => false
  */
 function isLeapYear(date) {
-   throw new Error('Not implemented');
+   const year=date.getFullYear();
+   return (year%100===0)&&(year%400===0)||(year%4===0)&&(year%100!==0);
 }
 
 
@@ -76,7 +77,21 @@ function isLeapYear(date) {
  *    Date(2000,1,1,10,0,0),  Date(2000,1,1,15,20,10,453)   => "05:20:10.453"
  */
 function timeSpanToString(startDate, endDate) {
-   throw new Error('Not implemented');
+   let days=endDate.getDate()-startDate.getDate();
+   let hours=endDate.getHours()-startDate.getHours();
+   let minutes=endDate.getMinutes()-startDate.getMinutes();
+   let seconds=endDate.getSeconds()-startDate.getSeconds();
+   let milliseconds=endDate.getMilliseconds()-startDate.getMilliseconds();
+   if(days>0)
+      hours+=24*days;
+   hours=hours<10?'0'+hours:hours;
+   minutes=minutes<10?'0'+minutes:minutes;
+   seconds=seconds<10?'0'+seconds:seconds;
+   if(milliseconds<10)
+      milliseconds='0'+'0'+milliseconds;
+   else if(milliseconds<100)
+      milliseconds='0'+milliseconds;
+   return hours+":"+minutes+":"+seconds+":"+milliseconds;
 }
 
 
@@ -94,7 +109,13 @@ function timeSpanToString(startDate, endDate) {
  *    Date.UTC(2016,3,5,21, 0) => Math.PI/2
  */
 function angleBetweenClockHands(date) {
-    throw new Error('Not implemented');
+   let minutes=date.getUTCMinutes();
+   let hours=date.getUTCHours()%12;
+   let minutesAngle=6*minutes;
+   let hoursAngle=30*hours*5*minutes;
+   let angle=Math.abs(minutesAngle-hoursAngle);
+   angle=Math.min(angle,360-angle);
+   return Math.PI*angle/180; 
 }
 
 
